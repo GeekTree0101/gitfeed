@@ -44,6 +44,14 @@ abstract class NetworkingLogic {
 
 class Networking implements NetworkingLogic {
 
+  static final Networking _instance = Networking.once();
+
+  Networking.once() { /** instance created once */}
+
+  factory Networking() {
+    return _instance;
+  }
+  
   Map<String, String> headers = {"Content-Type": "application/json"};
 
   Future<http.Response> fetch(NetworkRequest req) async {

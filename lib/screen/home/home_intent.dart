@@ -35,8 +35,8 @@ class HomeIntent implements HomeIntentLogic {
     _updateHasNext(newRepos);
 
     _repos = newRepos;
-
-    return newRepos.map((e) => RepositoryItemViewModel(e));
+    
+    return newRepos.map((e) => RepositoryItemViewModel(e)).toList();
   }
   
   @override
@@ -55,7 +55,7 @@ class HomeIntent implements HomeIntentLogic {
 
     _repos += newRepos;
 
-    return newRepos.map((e) => RepositoryItemViewModel(e));
+    return newRepos.map((e) => RepositoryItemViewModel(e)).toList();
   }
 
   @override

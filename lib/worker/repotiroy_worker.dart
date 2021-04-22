@@ -17,9 +17,13 @@ class RepositoryWorker implements RepositoryWorkerLogic {
     
   @override
   Future<List<Repository>> fetchList(RepositoryRequest req) async {
-
+  
     return networking
     .fetch(req)
-    .then((res) { return jsonDecode(res.body); });
+    .then((res) {
+      final List<dynamic> jsonArray = jsonDecode(res.body);
+      final repos = jsonArray.map((json) => Repository.fromJson(json)); 
+      return repos.toList();
+    });
   }
 }

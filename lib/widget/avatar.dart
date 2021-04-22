@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:gitfeed/widget/color.dart';
 
 class AvatarWidget extends StatelessWidget {
 
@@ -18,15 +17,34 @@ class AvatarWidget extends StatelessWidget {
     return Container(
           width: this.value,
           height: this.value,
-          decoration: BoxDecoration(
+          decoration: avatarDecoration(),
+        );
+  }
+
+  BoxDecoration avatarDecoration() {
+    if (this.profileImageURL == null) {
+      return BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black26,
+            border: Border.all(
+              color: Colors.grey[300],
+              width: 0.5
+            )
+          );
+    } else {
+      return BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(
-                this.profileImageURL
+                this.profileImageURL ?? ""
               )
             ),
             shape: BoxShape.circle,
-            color: ColorSystem.gray100
-          ),
-        );
+            color: Colors.black26,
+            border: Border.all(
+              color: Colors.grey[300],
+              width: 0.5
+            )
+          );
+    }
   }
 }

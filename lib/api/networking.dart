@@ -26,6 +26,10 @@ class NetworkErrorData {
   String message;
   
   NetworkErrorData({this.message});
+
+  factory NetworkErrorData.fromJson(Map<String, dynamic> json) {
+    return NetworkErrorData(message: json["message"]);
+  }
 }
 
 abstract class NetworkRequest {
@@ -60,10 +64,10 @@ class Networking implements NetworkingLogic {
 
     switch (req.encodingType) {
       case EncodingType.QueryString:
-        url = Uri(host: req.host, path: req.path, queryParameters: req.parameters());
+        url = Uri.https(req.host, req.path, req.parameters());
         break;
       case EncodingType.Body:
-        url = Uri(host: req.host, path: req.path);
+        url = Uri.https(req.host, req.path);
         break;
       default:
         throw UnsupportedError("undefined encoding type");
@@ -95,7 +99,7 @@ class Networking implements NetworkingLogic {
         return res;
       }
 
-      final NetworkErrorData data = jsonDecode(res.body);
+      final NetworkErrorData data = NetworkErrorData.fromJson(jsonDecode(res.body));
       return Future.error(NetworkError(code: res.statusCode, data: data));
     });
   }

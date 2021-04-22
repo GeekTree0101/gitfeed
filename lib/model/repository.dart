@@ -16,7 +16,7 @@ class Repository {
       name: json["name"],
       fullName: json["full_name"],
       description: json["description"],
-      owner: json["owner"],
+      owner: Owner.fromJson(json["owner"]),
     );
   }
 

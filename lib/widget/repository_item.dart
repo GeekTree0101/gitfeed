@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gitfeed/model/repository.dart';
 import 'package:gitfeed/widget/avatar.dart';
-import 'package:gitfeed/widget/color.dart';
 
 class RepositoryItemViewModel {
 
@@ -32,43 +31,52 @@ class RepositoryItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    return Padding(
-      child: content(context),
-      padding: EdgeInsets.all(16.0),
+
+    return Column(
+      children: [
+        content(context),
+        Container(height: 1.0, color: Colors.grey[300])
+      ],
+
     );
   }
 
   Widget content(BuildContext context) {
 
-    return Column(
+    return Padding(
+      child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         repositoryInfo(context),
-        SizedBox(height: 4.0),
-        userInfo(context),
+        SizedBox(height: 12.0),
+        userInfo(context)
       ],
+    ),
+      padding: EdgeInsets.all(12.0),
     );
   }
 
   Widget repositoryInfo(BuildContext context) {
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Text(
           this.viewModel.title, 
           style: TextStyle(
-            color: ColorSystem.gray900,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 24.0
+            fontSize: 24.0,
           )
         ),
         SizedBox(
           height: 8.0
         ),
         Text(
-          this.viewModel.description,
+          this.viewModel.description ?? "",
           style: TextStyle(
-            color: ColorSystem.gray700,
+            color: Colors.black54,
             fontWeight: FontWeight.normal,
             fontSize: 16.0
           )
@@ -84,13 +92,13 @@ class RepositoryItemWidget extends StatelessWidget {
       children: [
         AvatarWidget(
           profileImageURL: this.viewModel.profileImageURL, 
-          value: 48.0
+          value: 24.0
         ),
         SizedBox(width: 4.0),
         Text(
           this.viewModel.username,
           style: TextStyle(
-            color: ColorSystem.gray600,
+            color: Colors.black,
             fontWeight: FontWeight.normal,
             fontSize: 14.0
           )

@@ -14,22 +14,49 @@ class HomeWidget extends StatefulWidget {
 
 class HomeState extends State<HomeWidget> {
 
-  HomeIntentLogic _intent = HomeIntent();
+  HomeIntentLogic _intent;
   List<RepositoryItemViewModel> _items = List.empty();
-  bool _isLoading = false;
+  bool _isLoading = true;
+  bool _isError = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _intent = HomeIntent();
+    _refresh();
+  }
 
   void _refresh() async {
-    final newItems = await _intent.reload();
-    this.setState(() {
-      _items = newItems;
-    });
+    try {
+      final newItems = await _intent.reload();
+      this.setState(() {
+        _items = newItems;
+        _isError = false;
+        _isLoading = false;
+      });
+    } catch(err) {
+      this.setState(() {
+        _isError = true;
+        _isLoading = false;
+      });
+    }
   }
 
   void _loadMore() async {
-    final newItems = await _intent.next();
-    this.setState(() {
-      _items += newItems;
-    });
+    try {
+      final newItems = await _intent.next();
+      this.setState(() {
+        _items += newItems;
+        _isError = false;
+        _isLoading = false;
+      });
+    } catch(err) {
+      this.setState(() {
+        _isError = true;
+        _isLoading = false;
+      });
+    }
   }
 
   void _didSelectItem(int id) {
@@ -45,8 +72,8 @@ class HomeState extends State<HomeWidget> {
       ),
       body: Column(
         children: [
-          feed(),
-          loadingIndicator()
+          errorMessage(),
+          feed()
         ],
       ),
     );
@@ -55,37 +82,46 @@ class HomeState extends State<HomeWidget> {
   Widget feed() {
     return Expanded(
             child: NotificationListener<ScrollNotification>(
-              onNotification: (scrollInfo) {
-                if (!_isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                  _refresh();
-                  // start loading data
-                  setState(() {
-                    _isLoading = true;
-                  });
-                }
+              onNotification: (scrollInfo) => fetch(scrollInfo),
+              child: list(),
+            ),
+          );
+  }
 
-                return;
-              },
-              child: ListView.builder(
+  ListView list() {
+    return ListView.builder(
                 itemCount: _items.length,
                 itemBuilder: (context, index) {
                   return RepositoryItemWidget(
                     viewModel: _items[index]
                   );
                 },
-              ),
-            ),
-          );
+              );
   }
 
-  Widget loadingIndicator() {
+  Widget errorMessage() {
+    if (_isError) {
+      return Text("api error");
+    } else {
+      return Container();
+    }
+  }
+  bool fetch(ScrollNotification scrollInfo) {
+    if (shouldFetch(scrollInfo)) {
+      // start loading data
+      setState(() {
+        _isLoading = true;
+      });
 
-    return Container(
-            height: _isLoading ? 50.0 : 0,
-            color: Colors.transparent,
-            child: Center(
-              child: new CircularProgressIndicator(),
-            ),
-          );
+      _loadMore();
+    }
+
+    return true;
+  }
+
+  bool shouldFetch(ScrollNotification scrollInfo) {
+    return _isLoading == false 
+    && _intent.shouldBatch() 
+    && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent;
   }
 }

@@ -26,7 +26,7 @@ class RepositoryRequest implements NetworkRequest {
     }
 
     return {
-      "since": nextID,
+      "since": nextID.toString(),
     };
   }
 }

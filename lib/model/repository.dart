@@ -1,7 +1,6 @@
 import 'package:gitfeed/model/owner.dart';
 
 class Repository {
-
   final int id;
   final String name;
   final String fullName;

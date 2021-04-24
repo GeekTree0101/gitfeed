@@ -1,7 +1,6 @@
 import 'package:gitfeed/api/networking.dart';
 
 class RepositoryRequest implements NetworkRequest {
-
   final int nextID;
 
   RepositoryRequest({this.nextID});
@@ -15,12 +14,11 @@ class RepositoryRequest implements NetworkRequest {
   @override
   NetworkMethod method = NetworkMethod.GET;
 
-  @override 
+  @override
   EncodingType encodingType = EncodingType.QueryString;
 
   @override
   Map<String, dynamic> parameters() {
-
     if (nextID == null) {
       return {};
     }

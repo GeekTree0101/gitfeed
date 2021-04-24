@@ -7,21 +7,20 @@ import 'package:gitfeed/widget/repository_item.dart';
 import 'package:provider/provider.dart';
 
 class HomeListWidget extends StatelessWidget {
+  final Function() onNext;
+  final Function(RepositoryItemViewModel viewModel) onClick;
 
-  final Function() nextHandler;
+  HomeListWidget({this.onNext, this.onClick});
 
-  HomeListWidget({this.nextHandler});
-
-  @override 
+  @override
   Widget build(BuildContext context) {
-
     return Consumer<HomeModel>(
       builder: (context, model, child) {
         return NotificationListener(
           child: scrollableList(model),
           onNotification: (notification) {
             if (model.shouldBatch(notification)) {
-                nextHandler();
+              onNext();
             }
           },
         );
@@ -31,25 +30,23 @@ class HomeListWidget extends StatelessWidget {
 
   Widget scrollableList(HomeModel model) {
     if (Platform.isIOS) {
-      return CupertinoScrollbar(
-        child: list(model)
-      );
+      return CupertinoScrollbar(child: list(model));
     } else {
-      return Scrollbar(
-        child: list(model)
-      );
+      return Scrollbar(child: list(model));
     }
   }
 
   Widget list(HomeModel model) {
-
     return ListView.builder(
-              itemCount: model.items.length,
-              itemBuilder: (context, index) {
-                return RepositoryItemWidget(
-                  viewModel: model.items[index]
-                );
-              },
+      itemCount: model.items.length,
+      itemBuilder: (context, index) {
+        return RepositoryItemWidget(
+            viewModel: model.items[index],
+            onTap: () {
+              onClick(model.items[index]);
+            },
+          );
+      },
     );
   }
 }

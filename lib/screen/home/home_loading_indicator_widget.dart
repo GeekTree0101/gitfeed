@@ -4,7 +4,6 @@ import 'package:gitfeed/screen/home/home_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeLoadingIndicatorWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeModel>(
@@ -24,10 +23,7 @@ class HomeLoadingIndicatorWidget extends StatelessWidget {
                 Text(
                   "Loading...",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.grey[700]
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
                 )
               ],
             ),
@@ -36,5 +32,4 @@ class HomeLoadingIndicatorWidget extends StatelessWidget {
       },
     );
   }
-
 }

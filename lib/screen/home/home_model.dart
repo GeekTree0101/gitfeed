@@ -4,12 +4,11 @@ import 'package:gitfeed/api/request/repository_request.dart';
 import 'package:gitfeed/model/repository.dart';
 import 'package:gitfeed/widget/repository_item.dart';
 import 'package:gitfeed/worker/repotiroy_worker.dart';
-import 'package:flutter/material.dart';
 
 class HomeModel extends ChangeNotifier {
-
   // MARK: - dependencies
-  final RepositoryWorkerLogic _repositoryWorker = RepositoryWorker(networking: Networking());
+  final RepositoryWorkerLogic _repositoryWorker =
+      RepositoryWorker(networking: Networking());
 
   // MARK: - props
 
@@ -24,7 +23,6 @@ class HomeModel extends ChangeNotifier {
   bool _isError = false;
 
   reload() async {
-
     if (_isFetching) {
       return;
     }
@@ -44,12 +42,11 @@ class HomeModel extends ChangeNotifier {
     }
 
     _isFetching = false;
-    
+
     notifyListeners();
   }
-  
+
   next() async {
-    
     if (_hasNext == false) {
       return;
     }
@@ -78,13 +75,13 @@ class HomeModel extends ChangeNotifier {
   }
 
   bool shouldBatch(ScrollNotification notification) {
-    return notification.metrics.pixels == notification.metrics.maxScrollExtent
-    && _hasNext == true
-    && _isFetching == false;
+    return notification.metrics.pixels ==
+            notification.metrics.maxScrollExtent &&
+        _hasNext == true &&
+        _isFetching == false;
   }
 
   Repository getRepositoryByID(int id) {
-
     final index = _repos.indexWhere((element) => element.id == id);
 
     if (index == null) {
@@ -95,14 +92,10 @@ class HomeModel extends ChangeNotifier {
   }
 
   void _updateHasNext(List<Repository> repos) {
-
     if (repos.length > 0) {
       _hasNext = true;
     } else {
       _hasNext = false;
     }
   }
-
-
-
 }

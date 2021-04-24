@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:gitfeed/app_dependency.dart';
 import 'package:gitfeed/screen/detail/detail_model.dart';
 import 'package:gitfeed/screen/detail/detail_screen_widget.dart';
 import 'package:gitfeed/screen/home/home_model.dart';
@@ -13,6 +14,8 @@ void main() {
 
 class Application extends StatelessWidget {
 
+  final appDependency = AppDependency();
+
   @override
   Widget build(BuildContext context) {
     return PlatformApp(
@@ -21,7 +24,7 @@ class Application extends StatelessWidget {
       cupertino: (context, target) => CupertinoAppData(),
       routes: <String, WidgetBuilder>{
         '/': (ctx) => ChangeNotifierProvider(
-          create: (ctx) => new HomeModel(),
+          create: (ctx) => new HomeModel(appDependency.repositoryWorker),
           builder: (context, child) {
             return HomeWidget();
           }

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gitfeed/api/networking.dart';
 import 'package:gitfeed/api/request/repository_request.dart';
 import 'package:gitfeed/model/repository.dart';
 import 'package:gitfeed/widget/repository_item.dart';
 import 'package:gitfeed/worker/repotiroy_worker.dart';
 
 class HomeModel extends ChangeNotifier {
+
+  HomeModel(RepositoryWorkerLogic repositoryWorker) {
+    this._repositoryWorker = repositoryWorker;
+  }
+
   // MARK: - dependencies
-  final RepositoryWorkerLogic _repositoryWorker =
-      RepositoryWorker(networking: Networking());
+  RepositoryWorkerLogic _repositoryWorker;
 
   // MARK: - props
 

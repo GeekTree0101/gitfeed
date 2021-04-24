@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:gitfeed/screen/detail/detail_model.dart';
-import 'package:gitfeed/screen/home/home_error_widget.dart';
-import 'package:gitfeed/screen/home/home_list_widget.dart';
-import 'package:gitfeed/screen/home/home_loading_indicator_widget.dart';
+import 'package:gitfeed/screen/home/components/home_error_widget.dart';
+import 'package:gitfeed/screen/home/components/home_list_widget.dart';
+import 'package:gitfeed/screen/home/components/home_loading_indicator_widget.dart';
 import 'package:gitfeed/screen/home/home_model.dart';
 import 'package:provider/provider.dart';
 

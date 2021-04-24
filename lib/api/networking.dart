@@ -56,7 +56,9 @@ class Networking implements NetworkingLogic {
     return _instance;
   }
   
-  Map<String, String> headers = {"Content-Type": "application/json"};
+  Map<String, String> headers = {
+    "Content-Type": "application/json",
+  };
 
   Future<http.Response> fetch(NetworkRequest req) async {
 

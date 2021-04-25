@@ -29,17 +29,15 @@ class RepositoryItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.deferToChild,
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         onTap();
       },
-      child: Container(
-        child: Column(
+      child: Column(
           children: [
             content(context),
             Container(height: 1.0, color: Colors.grey[300])
           ],
-        ),
       ),
     );
   }

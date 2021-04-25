@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:gitfeed/screen/home/home_widget.dart';
+import 'package:gitfeed/screen/profile/profile_widget.dart';
 import 'package:ionicons/ionicons.dart';
 
 class MainWidget extends StatelessWidget {
@@ -57,7 +58,7 @@ class MainWidget extends StatelessWidget {
           case 0:
             return HomeWidget();
           case 1:
-            return HomeWidget();
+            return ProfileWidget();
           default:
             UnsupportedError("undefined case");
         }

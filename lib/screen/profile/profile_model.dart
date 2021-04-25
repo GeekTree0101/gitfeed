@@ -37,5 +37,7 @@ class ProfileModel extends ChangeNotifier {
     }
 
     _isLoading = false;
+    
+    notifyListeners();
   }
 }

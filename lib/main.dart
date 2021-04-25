@@ -7,6 +7,7 @@ import 'package:gitfeed/screen/detail/detail_screen_widget.dart';
 import 'package:gitfeed/screen/home/home_model.dart';
 import 'package:gitfeed/screen/home/home_widget.dart';
 import 'package:gitfeed/screen/main/main_widget.dart';
+import 'package:gitfeed/screen/profile/profile_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -28,6 +29,9 @@ class Application extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(
               create: (ctx) => new HomeModel(appDependency.repositoryWorker)
+            ),
+            ChangeNotifierProvider(
+              create: (ctx) => new ProfileModel(appDependency.authWorker)
             )
           ],
           builder: (context, child) => new MainWidget(),

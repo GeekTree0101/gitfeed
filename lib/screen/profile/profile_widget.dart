@@ -27,13 +27,18 @@ class ProfileState extends State<ProfileWidget> {
     final model = context.watch<ProfileModel>();
 
     return PlatformScaffold(
-      body: body(model),
+      body: Stack(
+        children: [
+          statusView(model),
+          loading(model)
+        ],
+      ),
     );
   }
 
-  Widget body(ProfileModel model) {
+  Widget statusView(ProfileModel model) {
     if (model.isLoading) {
-      return loading();
+      return Container();
     } else if (model.isError) {
       return error();
     } else {
@@ -41,22 +46,26 @@ class ProfileState extends State<ProfileWidget> {
     }
   }
 
-  Widget loading() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CupertinoActivityIndicator(
-            animating: true,
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            "Loading...",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
-          )
-        ],
+  Widget loading(ProfileModel model) {
+    return AnimatedOpacity(
+      opacity: model.isLoading ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 200),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CupertinoActivityIndicator(
+              animating: true,
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              "Loading...",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ class MainWidget extends StatelessWidget {
 
   final Color activeColor = Colors.grey[900];
   final Color inactiveColor = Colors.grey[500];
+  final double iconSize = 24.0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +77,13 @@ class MainWidget extends StatelessWidget {
   List<BottomNavigationBarItem> tabItems() {
     return [
       BottomNavigationBarItem(
-        icon: Icon(Ionicons.home_outline, color: inactiveColor),
-        activeIcon: Icon(Ionicons.home, color: activeColor),
+        icon: Icon(Ionicons.home_outline, color: inactiveColor, size: iconSize),
+        activeIcon: Icon(Ionicons.home, color: activeColor, size: iconSize),
         label: "home"
       ),
       BottomNavigationBarItem(
-        icon: Icon(Ionicons.person_outline, color: inactiveColor),
-        activeIcon: Icon(Ionicons.person, color: activeColor),
+        icon: Icon(Ionicons.person_outline, color: inactiveColor, size: iconSize),
+        activeIcon: Icon(Ionicons.person, color: activeColor, size: iconSize),
         label: "my profile"
       )
     ];

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:gitfeed/model/repository.dart';
 import 'package:gitfeed/widget/avatar.dart';
+import 'package:ionicons/ionicons.dart';
 
 class RepositoryItemViewModel {
   int id;
@@ -19,7 +21,6 @@ class RepositoryItemViewModel {
 }
 
 class RepositoryItemWidget extends StatelessWidget {
-
   final Function() onTap;
   final RepositoryItemViewModel viewModel;
 
@@ -33,11 +34,20 @@ class RepositoryItemWidget extends StatelessWidget {
       onTap: () {
         onTap();
       },
-      child: Column(
-          children: [
-            content(context),
-            Container(height: 1.0, color: Colors.grey[300])
-          ],
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey[500].withOpacity(0.5),
+                  spreadRadius: 1.0,
+                  blurRadius: 8.0,
+                  offset: Offset(0, 3))
+            ]),
+        child: content(context),
       ),
     );
   }
@@ -49,10 +59,54 @@ class RepositoryItemWidget extends StatelessWidget {
         children: [
           repositoryInfo(context),
           SizedBox(height: 12.0),
-          userInfo(context)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              userInfo(context),
+              SizedBox(width: 4.0),
+              addOrRemoteButton()
+            ],
+          )
         ],
       ),
       padding: EdgeInsets.all(12.0),
+    );
+  }
+
+  Widget addOrRemoteButton() {
+
+    final padding = EdgeInsets.only(left: 8.0, right: 8.0, top: 12.0, bottom: 12.0);
+
+    return PlatformButton(
+      material: (context, platform) => MaterialRaisedButtonData(
+        color: Colors.blue[600],
+        padding: padding,
+        child: Center(
+          child: Row(
+            children: [
+              Icon(Ionicons.add, color: Colors.white, size: 24.0),
+              SizedBox(width: 2.0),
+              Text("Add",
+                  style: TextStyle(fontSize: 16.0, color: Colors.white))
+            ],
+          ),
+        )
+      ),
+      cupertino: (context, platform) => CupertinoButtonData(
+        color: Colors.blue[600],
+        padding: padding,
+        child: Center(
+          child: Row(
+            children: [
+              Icon(Ionicons.add, color: Colors.white, size: 24.0),
+              SizedBox(width: 2.0),
+              Text("Add",
+                  style: TextStyle(fontSize: 16.0, color: Colors.white))
+            ],
+          ),
+        )
+      ),
     );
   }
 

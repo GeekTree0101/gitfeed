@@ -6,6 +6,7 @@ import 'package:gitfeed/screen/detail/detail_model.dart';
 import 'package:gitfeed/screen/detail/detail_screen_widget.dart';
 import 'package:gitfeed/screen/home/home_model.dart';
 import 'package:gitfeed/screen/home/home_widget.dart';
+import 'package:gitfeed/screen/main/main_widget.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -23,11 +24,13 @@ class Application extends StatelessWidget {
       material: (context, target) => MaterialAppData(),
       cupertino: (context, target) => CupertinoAppData(),
       routes: <String, WidgetBuilder>{
-        '/': (ctx) => ChangeNotifierProvider(
-          create: (ctx) => new HomeModel(appDependency.repositoryWorker),
-          builder: (context, child) {
-            return HomeWidget();
-          }
+        '/': (ctx) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (ctx) => new HomeModel(appDependency.repositoryWorker)
+            )
+          ],
+          builder: (context, child) => new MainWidget(),
         ),
         '/detail': (ctx) => ChangeNotifierProvider(
           create: (ctx) => new DetailModel(),

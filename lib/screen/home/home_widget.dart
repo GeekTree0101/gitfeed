@@ -6,6 +6,7 @@ import 'package:gitfeed/screen/home/components/home_error_widget.dart';
 import 'package:gitfeed/screen/home/components/home_list_widget.dart';
 import 'package:gitfeed/screen/home/components/home_loading_indicator_widget.dart';
 import 'package:gitfeed/screen/home/home_model.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -29,33 +30,20 @@ class HomeState extends State<HomeWidget> {
     return Consumer<HomeModel>(
       builder: (context, model, child) {
         return PlatformScaffold(
-            appBar: PlatformAppBar(
-              backgroundColor: Colors.white,
-              material: (context, platform) {
-                return MaterialAppBarData(
-                  title: Text(
-                    "Home",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                );
-              },
-              cupertino: (context, platform) => CupertinoNavigationBarData(
-                title: Text("Home"),
-              ),
-            ),
-            body: Stack(children: [
-              HomeLoadingIndicatorWidget(),
-              HomeErrorWidget(),
-              HomeListWidget(onClick: (item) {
-                final repo = model.getRepositoryByID(item.id);
-                if (repo != null) {
-                  final payload = new DetailPayload(owner: repo.owner);
-                  Navigator.pushNamed(context, "/detail", arguments: payload);
-                }
-              }, onNext: () {
-                model.next();
-              })
-            ]));
+          body: Stack(children: [
+            HomeLoadingIndicatorWidget(),
+            HomeErrorWidget(),
+            HomeListWidget(onClick: (item) {
+              final repo = model.getRepositoryByID(item.id);
+              if (repo != null) {
+                final payload = new DetailPayload(owner: repo.owner);
+                Navigator.pushNamed(context, "/detail", arguments: payload);
+              }
+            }, onNext: () {
+              model.next();
+            })
+          ]),
+        );
       },
     );
   }

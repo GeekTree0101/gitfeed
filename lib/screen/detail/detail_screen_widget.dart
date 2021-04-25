@@ -55,9 +55,15 @@ class DetailScreenState extends State<DetailScreenWidget> {
     );
 
     return PlatformAppBar(
-      material: (context, platform) => MaterialAppBarData(title: title),
-      cupertino: (context, platform) =>
-          CupertinoNavigationBarData(title: title),
+      material: (context, platform) => MaterialAppBarData(
+        title: title,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.grey[900])
+      ),
+      cupertino: (context, platform) => CupertinoNavigationBarData(
+        title: title,
+        backgroundColor: Colors.white,
+      ),
     );
   }
 

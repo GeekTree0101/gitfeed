@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:gitfeed/screen/profile/components/profile_content_view.dart';
 import 'package:gitfeed/screen/profile/profile_model.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProfileWidget extends StatefulWidget {
   // key
@@ -16,10 +17,25 @@ class ProfileWidget extends StatefulWidget {
 
 class ProfileState extends State<ProfileWidget> {
 
-  @override 
+  final _controller = RefreshController();
+
+  @override
   void initState() {
     super.initState();
-    Provider.of<ProfileModel>(context, listen: false).reload();
+    initialLoad();
+  }
+
+  initialLoad() async {
+    await Provider.of<ProfileModel>(context, listen: false).reload();
+  }
+
+  refresh(ProfileModel model) async {
+    try {
+      await model.reload();
+      _controller.refreshCompleted();
+    } catch (error) {
+      _controller.refreshFailed();
+    }
   }
 
   @override
@@ -27,11 +43,22 @@ class ProfileState extends State<ProfileWidget> {
     final model = context.watch<ProfileModel>();
 
     return PlatformScaffold(
-      body: Stack(
-        children: [
-          statusView(model),
-          loading(model)
-        ],
+      body: SafeArea(
+        child: SmartRefresher(
+          controller: _controller,
+          header: ClassicHeader(
+            idleText: "drag more",
+            completeText: "success!",
+            failedText: "failed :[",
+            refreshingText: "refreshing...",
+          ),
+          enablePullDown: true,
+          enablePullUp: false,
+          onRefresh: () => refresh(model),
+          child: Stack(
+            children: [statusView(model), loading(model)],
+          ),
+        ),
       ),
     );
   }

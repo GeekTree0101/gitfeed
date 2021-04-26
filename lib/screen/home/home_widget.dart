@@ -8,6 +8,7 @@ import 'package:gitfeed/screen/home/components/home_loading_indicator_widget.dar
 import 'package:gitfeed/screen/home/home_model.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeWidget extends StatefulWidget {
   // key
@@ -19,32 +20,53 @@ class HomeWidget extends StatefulWidget {
 }
 
 class HomeState extends State<HomeWidget> {
+  RefreshController _refreshController = RefreshController();
+
   @override
   void initState() {
     super.initState();
+    initialLoad();
+  }
+
+  initialLoad() {
     Provider.of<HomeModel>(context, listen: false).reload();
+  }
+
+  refresh(HomeModel model) async {
+    try {
+      await model.reload();
+      _refreshController.refreshCompleted();
+    } catch (error) {
+      _refreshController.refreshFailed();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeModel>(
-      builder: (context, model, child) {
-        return PlatformScaffold(
-          body: Stack(children: [
-            HomeLoadingIndicatorWidget(),
-            HomeErrorWidget(),
-            HomeListWidget(onClick: (item) {
-              final repo = model.getRepositoryByID(item.id);
-              if (repo != null) {
-                final payload = new DetailPayload(owner: repo.owner);
-                Navigator.pushNamed(context, "/detail", arguments: payload);
-              }
-            }, onNext: () {
-              model.next();
-            })
-          ]),
-        );
-      },
+    final model = context.watch<HomeModel>();
+
+    return PlatformScaffold(
+      body: SafeArea(
+        child: Stack(children: [
+          HomeLoadingIndicatorWidget(),
+          HomeErrorWidget(),
+          HomeListWidget(
+              refreshController: _refreshController,
+              onRefresh: () {
+                refresh(model);
+              },
+              onClick: (item) {
+                final repo = model.getRepositoryByID(item.id);
+                if (repo != null) {
+                  final payload = new DetailPayload(owner: repo.owner);
+                  Navigator.pushNamed(context, "/detail", arguments: payload);
+                }
+              },
+              onNext: () {
+                model.next();
+              })
+        ]),
+      ),
     );
   }
 }

@@ -46,7 +46,7 @@ class Networking implements NetworkingLogic {
 
   Map<String, String> headers = {
     "Content-Type": "application/json",
-    "Authorization": "token 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",
+    // "Authorization": "token TODO_TOKEN", 
   };
 
   Future<http.Response> fetch(NetworkRequest req) async {

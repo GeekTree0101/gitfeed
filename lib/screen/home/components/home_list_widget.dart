@@ -12,9 +12,10 @@ class HomeListWidget extends StatelessWidget {
   final RefreshController refreshController;
   final Function() onRefresh;
   final Function() onNext;
+  final Function(RepositoryItemViewModel vieWModel) onAdd;
   final Function(RepositoryItemViewModel viewModel) onClick;
 
-  HomeListWidget({this.refreshController, this.onRefresh, this.onNext, this.onClick});
+  HomeListWidget({this.refreshController, this.onRefresh, this.onNext, this.onAdd, this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,12 @@ class HomeListWidget extends StatelessWidget {
       itemCount: model.items.length,
       itemBuilder: (context, index) {
         return RepositoryItemWidget(
+          hasAddButton: true,
+          hasDeleteButton: false,
           viewModel: model.items[index],
+          onAdd: () {
+            onAdd(model.items[index]);
+          },
           onTap: () {
             onClick(model.items[index]);
           },

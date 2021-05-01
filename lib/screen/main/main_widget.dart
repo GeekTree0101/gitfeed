@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:gitfeed/screen/favorite/favorite_scene.dart';
 import 'package:gitfeed/screen/home/home_widget.dart';
 import 'package:gitfeed/screen/profile/profile_widget.dart';
 import 'package:ionicons/ionicons.dart';
@@ -59,6 +60,8 @@ class MainWidget extends StatelessWidget {
           case 0:
             return HomeWidget();
           case 1:
+            return FavoriteScene();
+          case 2:
             return ProfileWidget();
           default:
             UnsupportedError("undefined case");
@@ -80,6 +83,11 @@ class MainWidget extends StatelessWidget {
         icon: Icon(Ionicons.home_outline, color: inactiveColor, size: iconSize),
         activeIcon: Icon(Ionicons.home, color: activeColor, size: iconSize),
         label: "home"
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Ionicons.star_outline, color: inactiveColor, size: iconSize),
+        activeIcon: Icon(Ionicons.star, color: activeColor, size: iconSize),
+        label: "favorite"
       ),
       BottomNavigationBarItem(
         icon: Icon(Ionicons.person_outline, color: inactiveColor, size: iconSize),

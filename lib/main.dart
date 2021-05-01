@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:gitfeed/app_dependency.dart';
 import 'package:gitfeed/screen/detail/detail_model.dart';
 import 'package:gitfeed/screen/detail/detail_screen_widget.dart';
+import 'package:gitfeed/screen/favorite/favorite_model.dart';
 import 'package:gitfeed/screen/home/home_model.dart';
 import 'package:gitfeed/screen/home/home_widget.dart';
 import 'package:gitfeed/screen/main/main_widget.dart';
@@ -32,6 +33,9 @@ class Application extends StatelessWidget {
             ),
             ChangeNotifierProvider(
               create: (ctx) => new ProfileModel(appDependency.authWorker)
+            ),
+            ChangeNotifierProvider(
+              create: (ctx) => new FavoriteModel()
             )
           ],
           builder: (context, child) => new MainWidget(),

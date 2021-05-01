@@ -32,7 +32,10 @@ class DetailScreenState extends State<DetailScreenWidget> {
   @override
   void initState() {
     super.initState();
-    Provider.of<DetailModel>(context, listen: false).reload();
+    final obj = Provider.of<DetailModel>(context, listen: false);
+    obj.reload();
+    debugPrint("context: " + identityHashCode(context).toString());
+    debugPrint("change notifier: " + identityHashCode(obj).toString());
   }
 
   @override

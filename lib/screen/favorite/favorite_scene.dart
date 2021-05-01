@@ -113,7 +113,7 @@ class FavoriteState extends State<FavoriteScene> {
       return;
     }
 
-    final payload = DetailPayload(owner: repo.owner);
+    final payload = DetailPayload(repo: repo);
     Navigator.pushNamed(context, "detail", arguments: payload);
   }
 }

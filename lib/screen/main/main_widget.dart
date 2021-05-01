@@ -24,12 +24,11 @@ class MainWidget extends StatelessWidget {
   Widget appBar() {
     
     return PlatformAppBar(
+        title: navigationBarTitle(),
         material: (context, platform) => MaterialAppBarData(
-          title: navigationBarTitle(),
           backgroundColor: Colors.white
         ),
         cupertino: (context, platform) => CupertinoNavigationBarData(
-          title: navigationBarTitle()
         ),
       );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gitfeed/api/request/repository_request.dart';
 import 'package:gitfeed/model/repository.dart';
@@ -5,7 +7,6 @@ import 'package:gitfeed/widget/repository_item.dart';
 import 'package:gitfeed/worker/repotiroy_worker.dart';
 
 class HomeModel extends ChangeNotifier {
-
   HomeModel(RepositoryWorkerLogic repositoryWorker) {
     this._repositoryWorker = repositoryWorker;
   }
@@ -77,11 +78,16 @@ class HomeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool shouldBatch(ScrollNotification notification) {
-    return notification.metrics.pixels ==
-            notification.metrics.maxScrollExtent &&
-        _hasNext == true &&
-        _isFetching == false;
+  bool shouldBatch(dynamic notification) {
+    if (notification is ScrollNotification) {
+      final ScrollNotification scrollNotification = notification;
+      return scrollNotification.metrics.pixels ==
+              scrollNotification.metrics.maxScrollExtent &&
+          _hasNext == true &&
+          _isFetching == false;
+    }
+
+    return false;
   }
 
   Repository getRepositoryByID(int id) {

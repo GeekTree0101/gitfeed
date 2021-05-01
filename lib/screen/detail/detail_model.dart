@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:gitfeed/model/owner.dart';
+import 'package:gitfeed/model/repository.dart';
 
 import 'detail_screen_widget.dart';
 
 class DetailPayload {
-  Owner owner;
+  Repository repo;
 
-  DetailPayload({this.owner});
+  DetailPayload({this.repo});
 }
 
 class DetailModel extends ChangeNotifier {
   DetailScreenViewModel get viewModel => this._viewModel;
   bool get isLoadFailed => this._isLoadFailed;
+  Repository get repo => _repo;
 
   DetailScreenViewModel _viewModel;
-  Owner _owner = null;
+  Repository _repo = null;
   bool _isLoadFailed = false;
 
-  setOwner(Owner owner) {
-    this._owner = owner;
+  setRepository(Repository repo) {
+    this._repo = repo;
   }
 
   reload() {
-    if (_owner == null) {
+    if (_repo.owner == null) {
       _isLoadFailed = true;
       _viewModel = null;
     } else {
       _isLoadFailed = false;
-      _viewModel = DetailScreenViewModel(_owner);
+      _viewModel = DetailScreenViewModel(_repo.owner);
     }
   }
 }

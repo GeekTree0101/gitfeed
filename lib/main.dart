@@ -21,35 +21,43 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformApp(
-      title: "Gitfeed",
-      material: (context, target) => MaterialAppData(),
-      cupertino: (context, target) => CupertinoAppData(),
-      routes: <String, WidgetBuilder>{
-        '/': (ctx) => MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (ctx) => new HomeModel(appDependency.repositoryWorker)
-            ),
-            ChangeNotifierProvider(
-              create: (ctx) => new ProfileModel(appDependency.authWorker)
-            ),
-            ChangeNotifierProvider(
-              create: (ctx) => new FavoriteModel()
-            )
-          ],
-          builder: (context, child) => new MainWidget(),
-        ),
-        '/detail': (ctx) => ChangeNotifierProvider(
-          create: (ctx) => new DetailModel(),
-          builder: (context, child) {
-            final payload = ModalRoute.of(context).settings.arguments as DetailPayload;
-            final model = Provider.of<DetailModel>(context, listen: false);
-            model.setOwner(payload.owner);
-            return DetailScreenWidget();
-          }
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => new FavoriteModel()
         )
-      },
+      ],
+      child: PlatformApp(
+        title: "Gitfeed",
+        material: (context, target) => MaterialAppData(),
+        cupertino: (context, target) => CupertinoAppData(),
+        routes: <String, WidgetBuilder>{
+          '/': (ctx) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (ctx) => new HomeModel(appDependency.repositoryWorker)
+              ),
+              ChangeNotifierProvider(
+                create: (ctx) => new ProfileModel(appDependency.authWorker)
+              )
+            ],
+            builder: (context, child) => new MainWidget(),
+          ),
+          '/detail': (ctx) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (ctx) => new DetailModel(),
+              )
+            ],
+            builder: (context, child) {
+              final payload = ModalRoute.of(context).settings.arguments as DetailPayload;
+              final model = Provider.of<DetailModel>(context, listen: false);
+              model.setRepository(payload.repo);
+              return DetailScreenWidget();
+            }
+          )
+        },
+      ),
     );
   }
 }

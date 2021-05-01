@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gitfeed/model/owner.dart';
 import 'package:gitfeed/screen/detail/detail_model.dart';
+import 'package:gitfeed/screen/favorite/favorite_model.dart';
 import 'package:gitfeed/widget/avatar.dart';
+import 'package:gitfeed/widget/toast.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreenViewModel {
@@ -29,9 +32,12 @@ class DetailScreenWidget extends StatefulWidget {
 }
 
 class DetailScreenState extends State<DetailScreenWidget> {
+  FToast _toast;
+
   @override
   void initState() {
     super.initState();
+    _toast = FToast();
     final obj = Provider.of<DetailModel>(context, listen: false);
     obj.reload();
     debugPrint("context: " + identityHashCode(context).toString());
@@ -45,26 +51,45 @@ class DetailScreenState extends State<DetailScreenWidget> {
         return PlatformScaffold(
             material: (context, platform) => MaterialScaffoldData(),
             cupertino: (context, platform) => CupertinoPageScaffoldData(),
-            appBar: appbar(model),
+            appBar: appbar(context, model),
             body: body(model));
       },
     );
   }
 
-  Widget appbar(DetailModel model) {
-    final title = Text(
-      model.viewModel.navigationTitle,
-      style: TextStyle(color: Colors.black),
-    );
-
+  Widget appbar(BuildContext context, DetailModel model) {
     return PlatformAppBar(
-      material: (context, platform) => MaterialAppBarData(
-        title: title,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.grey[900])
+      title: Text(
+        model.viewModel.navigationTitle,
+        style: TextStyle(color: Colors.black),
       ),
+      trailingActions: [
+        GestureDetector(
+          onTap: () {
+            final result = Provider.of<FavoriteModel>(context, listen: false)
+                .addFavorite(model.repo);
+            _toast.removeCustomToast();
+            _toast.showToast(
+              child: GitFeedToast(viewModel: result),
+              positionedToastBuilder: (context, child) => Positioned(
+                child: child,
+                bottom: 120.0,
+                left: 24.0,
+                right: 24.0,
+              ),
+              gravity: ToastGravity.BOTTOM,
+              toastDuration: Duration(seconds: 2),
+            );
+          },
+          child: Icon(
+            Icons.add,
+          ),
+        ),
+      ],
+      material: (context, platform) => MaterialAppBarData(
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.grey[900])),
       cupertino: (context, platform) => CupertinoNavigationBarData(
-        title: title,
         backgroundColor: Colors.white,
       ),
     );

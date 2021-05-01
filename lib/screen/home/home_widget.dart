@@ -84,7 +84,7 @@ class HomeState extends State<HomeWidget> {
               onClick: (item) {
                 final repo = model.getRepositoryByID(item.id);
                 if (repo != null) {
-                  final payload = new DetailPayload(owner: repo.owner);
+                  final payload = new DetailPayload(repo: repo);
                   Navigator.pushNamed(context, "/detail", arguments: payload);
                 }
               },

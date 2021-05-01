@@ -2,6 +2,12 @@
 
 A github api example flutter project.
 
+## Features
+- home feed tab, favorite repositories tab, personal profile tab, repository owner detail
+- repositories **pagination**
+- scene model(ChangeNotifier) **unit test**
+- app router & dependencies management
+
 ## Personally well-written flutter pubs 😋
 - flutter_platform_widgets: the convenience of developing apps for Android and iOS at the same time.
 - ionicons: simple icon assets

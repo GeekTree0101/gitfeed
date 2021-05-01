@@ -1,16 +1,18 @@
-# gitfeed
+# Gitfeed
 
-A new Flutter project.
+A github api example flutter project.
 
-## Getting Started
+## Personally well-written flutter pubs 😋
+- flutter_platform_widgets: the convenience of developing apps for Android and iOS at the same time.
+- ionicons: simple icon assets
+- provider: it was much better to use than bloc.
+- pull_to_refresh: it most satisfactorily among the pull to refresh pubs.
+- fluttertoast: very simple. but, accessibility was not good.
+- flutter_swipe_action_cell: it's not free to form, but it's pretty useful.
 
-This project is a starting point for a Flutter application.
+## The github auth token is exposed in the source code. 😱
+Don't worry :] It has already expired.
 
-A few resources to get you started if this is your first Flutter project:
+## Example
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://user-images.githubusercontent.com/19504988/116776077-bbabff00-aaa1-11eb-8b45-f5a2fea8cd5b.mov
